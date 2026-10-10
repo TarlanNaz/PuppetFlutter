@@ -1,0 +1,16 @@
+{
+  "appTitle": "Puppet Forge",
+  "modulesListTitle": "Modules",
+  "moduleDetailsTitle": "Module Details",
+  "downloads": "Downloads",
+  "version": "Version",
+  "owner": "Owner",
+  "license": "License",
+  "updatedAt": "Updated at",
+  "tags": "Tags",
+  "themeToggle": "Toggle Theme",
+  "languageToggle": "Toggle Language",
+  "noSummary": "No summary provided.",
+  "searchModules": "Search modules...",
+  "noResults": "No modules found."
+}

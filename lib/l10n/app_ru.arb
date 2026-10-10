@@ -1,0 +1,16 @@
+{
+  "appTitle": "Puppet Forge",
+  "modulesListTitle": "Модули",
+  "moduleDetailsTitle": "Детали модуля",
+  "downloads": "Скачиваний",
+  "version": "Версия",
+  "owner": "Владелец",
+  "license": "Лицензия",
+  "updatedAt": "Обновлено",
+  "tags": "Теги",
+  "themeToggle": "Сменить тему",
+  "languageToggle": "Сменить язык",
+  "noSummary": "Описание отсутствует.",
+  "searchModules": "Поиск модулей...",
+  "noResults": "Модули не найдены."
+}
