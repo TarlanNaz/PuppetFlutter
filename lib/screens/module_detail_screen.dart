@@ -12,7 +12,6 @@ class ModuleDetailScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     
-    // In a real app with state management, this would be fetched from a provider/repository
     final module = mockModules.firstWhere(
       (m) => m.slug == slug,
       orElse: () => mockModules.first,

@@ -18,8 +18,6 @@ final GoRouter appRouter = GoRouter(
               key: state.pageKey,
               child: ModuleDetailScreen(slug: slug),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                // Return transition that looks like a push (slide from right)
-                // When popping, it will naturally slide back to right
                 const begin = Offset(1.0, 0.0);
                 const end = Offset.zero;
                 const curve = Curves.easeInOutCubic;
