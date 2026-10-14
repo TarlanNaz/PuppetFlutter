@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
-  static ThemeData get lightTheme {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blueGrey,
-        brightness: Brightness.light,
-      ),
-      useMaterial3: true,
-      appBarTheme: const AppBarTheme(
-        centerTitle: true,
-      ),
-    );
-  }
+// Все цвета берутся из одного основного цвета (seedColor)
+final lightTheme = ThemeData(
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+);
 
-  static ThemeData get darkTheme {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blueGrey,
-        brightness: Brightness.dark,
-      ),
-      useMaterial3: true,
-      appBarTheme: const AppBarTheme(
-        centerTitle: true,
-      ),
-    );
-  }
-}
+final darkTheme = ThemeData(
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: Colors.blueGrey,
+    brightness: Brightness.dark,
+  ),
+);

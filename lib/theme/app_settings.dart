@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
+// Настройки приложения: тема и язык.
+// После изменения вызываем notifyListeners(), чтобы экран перерисовался
 class AppSettings extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
-  Locale _locale = const Locale('en');
-
-  ThemeMode get themeMode => _themeMode;
-  Locale get locale => _locale;
+  ThemeMode themeMode = ThemeMode.light;
+  Locale locale = const Locale('en');
 
   void toggleTheme() {
-    _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    if (themeMode == ThemeMode.light) {
+      themeMode = ThemeMode.dark;
+    } else {
+      themeMode = ThemeMode.light;
+    }
     notifyListeners();
   }
 
   void toggleLocale() {
-    _locale = _locale.languageCode == 'en' ? const Locale('ru') : const Locale('en');
+    if (locale.languageCode == 'en') {
+      locale = const Locale('ru');
+    } else {
+      locale = const Locale('en');
+    }
     notifyListeners();
   }
 }

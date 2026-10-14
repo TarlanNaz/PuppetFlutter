@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../l10n/app_localizations.dart';
+
 import '../data/mock_modules.dart';
-import '../models/puppet_module.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_settings.dart';
+import '../widgets/module_list_item.dart';
 
 class ModuleListScreen extends StatefulWidget {
   const ModuleListScreen({super.key});
@@ -14,34 +14,24 @@ class ModuleListScreen extends StatefulWidget {
 }
 
 class _ModuleListScreenState extends State<ModuleListScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      setState(() {
-        _searchQuery = _searchController.text.toLowerCase();
-      });
-    });
-  }
+  final searchController = TextEditingController();
+  String search = '';
 
   @override
   void dispose() {
-    _searchController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    
-    final filteredModules = mockModules.where((module) {
-      return module.name.toLowerCase().contains(_searchQuery) ||
-             module.summary.toLowerCase().contains(_searchQuery) ||
-             module.slug.toLowerCase().contains(_searchQuery);
+
+    // оставляем модули, у которых строка поиска есть в названии или описании
+    final text = search.toLowerCase();
+    final modules = mockModules.where((module) {
+      return module.name.toLowerCase().contains(text) ||
+          module.summary.toLowerCase().contains(text);
     }).toList();
 
     return Scaffold(
@@ -52,6 +42,7 @@ class _ModuleListScreenState extends State<ModuleListScreen> {
             icon: const Icon(Icons.language),
             tooltip: l10n.languageToggle,
             onPressed: () {
+              // read - просто вызываем метод, перерисовка тут не нужна
               context.read<AppSettings>().toggleLocale();
             },
           ),
@@ -67,74 +58,46 @@ class _ModuleListScreenState extends State<ModuleListScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SearchBar(
-              controller: _searchController,
-              hintText: l10n.searchModules,
-              leading: const Icon(Icons.search),
-              trailing: [
-                if (_searchQuery.isNotEmpty)
-                  IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                    },
-                  ),
-              ],
-              elevation: const WidgetStatePropertyAll(1.0),
+            padding: const EdgeInsets.all(16),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: l10n.searchModules,
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
+                // крестик показываем, только если что-то введено
+                suffixIcon: search.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          searchController.clear();
+                          setState(() {
+                            search = '';
+                          });
+                        },
+                      ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  search = value;
+                });
+              },
             ),
           ),
+          // Expanded нужен, чтобы список занял оставшееся место в Column
           Expanded(
-            child: filteredModules.isEmpty
-                ? Center(
-                    child: Text(
-                      l10n.noResults,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  )
+            child: modules.isEmpty
+                ? Center(child: Text(l10n.noResults))
                 : ListView.builder(
-                    itemCount: filteredModules.length,
+                    itemCount: modules.length,
                     itemBuilder: (context, index) {
-                      final module = filteredModules[index];
-                      return _ModuleListItem(
-                        module: module,
-                        onTap: () {
-                          context.push('/module/${module.slug}');
-                        },
-                      );
+                      return ModuleListItem(module: modules[index]);
                     },
                   ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ModuleListItem extends StatelessWidget {
-  final PuppetModule module;
-  final VoidCallback onTap;
-
-  const _ModuleListItem({
-    required this.module,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-
-    return ListTile(
-      title: Text(module.name, style: theme.textTheme.titleMedium),
-      subtitle: Text(
-        '${l10n.downloads}: ${module.downloads} | ${l10n.owner}: ${module.ownerUsername}',
-        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-      ),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
     );
   }
 }
