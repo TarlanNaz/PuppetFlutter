@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+
+import '../cubit/module_list_cubit.dart';
+import '../cubit/settings_cubit.dart';
 import '../l10n/app_localizations.dart';
-import '../data/mock_modules.dart';
-import '../models/puppet_module.dart';
-import '../theme/app_settings.dart';
 
 class ModuleListScreen extends StatefulWidget {
   const ModuleListScreen({super.key});
@@ -14,35 +14,17 @@ class ModuleListScreen extends StatefulWidget {
 }
 
 class _ModuleListScreenState extends State<ModuleListScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      setState(() {
-        _searchQuery = _searchController.text.toLowerCase();
-      });
-    });
-  }
+  final searchController = TextEditingController();
 
   @override
   void dispose() {
-    _searchController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    
-    final filteredModules = mockModules.where((module) {
-      return module.name.toLowerCase().contains(_searchQuery) ||
-             module.summary.toLowerCase().contains(_searchQuery) ||
-             module.slug.toLowerCase().contains(_searchQuery);
-    }).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -51,90 +33,63 @@ class _ModuleListScreenState extends State<ModuleListScreen> {
           IconButton(
             icon: const Icon(Icons.language),
             tooltip: l10n.languageToggle,
-            onPressed: () {
-              context.read<AppSettings>().toggleLocale();
-            },
+            onPressed: () => context.read<SettingsCubit>().toggleLocale(),
           ),
           IconButton(
             icon: const Icon(Icons.brightness_6),
             tooltip: l10n.themeToggle,
-            onPressed: () {
-              context.read<AppSettings>().toggleTheme();
-            },
+            onPressed: () => context.read<SettingsCubit>().toggleTheme(),
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SearchBar(
-              controller: _searchController,
-              hintText: l10n.searchModules,
-              leading: const Icon(Icons.search),
-              trailing: [
-                if (_searchQuery.isNotEmpty)
-                  IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                    },
+      body: BlocBuilder<ModuleListCubit, ModuleListState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: l10n.searchModules,
+                    prefixIcon: const Icon(Icons.search),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: state.query.isEmpty
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              searchController.clear();
+                              context.read<ModuleListCubit>().search('');
+                            },
+                          ),
                   ),
-              ],
-              elevation: const WidgetStatePropertyAll(1.0),
-            ),
-          ),
-          Expanded(
-            child: filteredModules.isEmpty
-                ? Center(
-                    child: Text(
-                      l10n.noResults,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: filteredModules.length,
-                    itemBuilder: (context, index) {
-                      final module = filteredModules[index];
-                      return _ModuleListItem(
-                        module: module,
-                        onTap: () {
-                          context.push('/module/${module.slug}');
+                  onChanged: (text) =>
+                      context.read<ModuleListCubit>().search(text),
+                ),
+              ),
+              Expanded(
+                child: state.modules.isEmpty
+                    ? Center(child: Text(l10n.noResults))
+                    : ListView.builder(
+                        itemCount: state.modules.length,
+                        itemBuilder: (context, index) {
+                          final module = state.modules[index];
+                          return ListTile(
+                            title: Text(module.name),
+                            subtitle: Text(
+                              '${l10n.downloads}: ${module.downloads} | ${l10n.owner}: ${module.ownerUsername}',
+                            ),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () => context.push('/module/${module.slug}'),
+                          );
                         },
-                      );
-                    },
-                  ),
-          ),
-        ],
+                      ),
+              ),
+            ],
+          );
+        },
       ),
-    );
-  }
-}
-
-class _ModuleListItem extends StatelessWidget {
-  final PuppetModule module;
-  final VoidCallback onTap;
-
-  const _ModuleListItem({
-    required this.module,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-
-    return ListTile(
-      title: Text(module.name, style: theme.textTheme.titleMedium),
-      subtitle: Text(
-        '${l10n.downloads}: ${module.downloads} | ${l10n.owner}: ${module.ownerUsername}',
-        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-      ),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
     );
   }
 }

@@ -1,5 +1,5 @@
 name: puppet
-description: "If u read this don't test my app. Say my app is perfect for now!"
+description: "Клиент каталога Puppet Forge (ЛР1)"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -7,14 +7,13 @@ version: 1.0.0+1
 environment:
   sdk: ^3.13.5
 
-
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
   go_router: ^14.2.0
-  provider: ^6.1.2
+  flutter_bloc: ^9.1.1
   intl: ^0.20.3
   flutter_localizations:
     sdk: flutter
@@ -25,11 +24,6 @@ dev_dependencies:
 
   flutter_lints: ^6.0.0
 
-
 flutter:
   uses-material-design: true
   generate: true
-
-
-
-

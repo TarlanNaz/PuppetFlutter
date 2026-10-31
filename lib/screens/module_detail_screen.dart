@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../data/module_repository.dart';
 import '../l10n/app_localizations.dart';
-import '../data/mock_modules.dart';
 
 class ModuleDetailScreen extends StatelessWidget {
   final String slug;
@@ -10,57 +12,42 @@ class ModuleDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    
-    final module = mockModules.firstWhere(
-      (m) => m.slug == slug,
-      orElse: () => mockModules.first,
-    );
+    final module = context.read<ModuleRepository>().getBySlug(slug);
+
+    if (module == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: Center(child: Text(l10n.noResults)),
+      );
+    }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(module.name),
-      ),
+      appBar: AppBar(title: Text(module.name)),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               module.name,
-              style: theme.textTheme.headlineMedium?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
-            Text(
-              module.summary.isNotEmpty ? module.summary : l10n.noSummary,
-              style: theme.textTheme.bodyLarge,
-            ),
+            Text(module.summary.isEmpty ? l10n.noSummary : module.summary),
             const SizedBox(height: 24),
-            _buildInfoRow(context, l10n.owner, module.ownerUsername),
-            _buildInfoRow(context, l10n.version, module.version),
-            _buildInfoRow(context, l10n.downloads, module.downloads.toString()),
-            _buildInfoRow(context, l10n.license, module.license),
-            _buildInfoRow(context, l10n.updatedAt, module.updatedAt),
+            infoRow(l10n.owner, module.ownerUsername),
+            infoRow(l10n.version, module.version),
+            infoRow(l10n.downloads, module.downloads.toString()),
+            infoRow(l10n.license, module.license),
+            infoRow(l10n.updatedAt, module.updatedAt),
             const SizedBox(height: 24),
-            Text(
-              l10n.tags,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.secondary,
-              ),
-            ),
+            Text(l10n.tags, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
-              runSpacing: 8,
-              children: module.tags.map((tag) {
-                return Chip(
-                  label: Text(tag),
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                  labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-                );
-              }).toList(),
+              children: [
+                for (final tag in module.tags) Chip(label: Text(tag)),
+              ],
             ),
           ],
         ),
@@ -68,31 +55,19 @@ class ModuleDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, String label, String value) {
-    final theme = Theme.of(context);
+  Widget infoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 100,
+            width: 120,
             child: Text(
               label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSurface,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ),
+          Expanded(child: Text(value)),
         ],
       ),
     );
