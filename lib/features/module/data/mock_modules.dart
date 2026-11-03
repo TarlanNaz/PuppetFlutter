@@ -1,7 +1,7 @@
-import '../models/puppet_module.dart';
+import 'package:puppet/features/module/domain/module_model.dart';
 
-final List<PuppetModule> mockModules = [
-  const PuppetModule(
+final List<ModuleModel> mockModules = [
+  const ModuleModel(
     slug: 'puppetlabs-stdlib',
     name: 'stdlib',
     downloads: 840000000,
@@ -12,7 +12,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'stdlib', 'functions', 'types'],
     updatedAt: '2023-11-20',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-apache',
     name: 'apache',
     downloads: 320000000,
@@ -23,7 +23,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'apache', 'web', 'httpd'],
     updatedAt: '2023-10-15',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-postgresql',
     name: 'postgresql',
     downloads: 250000000,
@@ -34,7 +34,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'postgresql', 'database', 'db'],
     updatedAt: '2024-01-10',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-mysql',
     name: 'mysql',
     downloads: 195000000,
@@ -45,7 +45,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'mysql', 'database', 'db'],
     updatedAt: '2023-09-05',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-ntp',
     name: 'ntp',
     downloads: 180000000,
@@ -56,7 +56,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'ntp', 'time'],
     updatedAt: '2023-08-14',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-concat',
     name: 'concat',
     downloads: 310000000,
@@ -67,7 +67,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'concat', 'files', 'fragments'],
     updatedAt: '2023-07-22',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-firewall',
     name: 'firewall',
     downloads: 160000000,
@@ -78,7 +78,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'firewall', 'iptables', 'security'],
     updatedAt: '2023-12-05',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-apt',
     name: 'apt',
     downloads: 190000000,
@@ -89,7 +89,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'apt', 'ubuntu', 'debian'],
     updatedAt: '2024-02-01',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-vcsrepo',
     name: 'vcsrepo',
     downloads: 115000000,
@@ -100,7 +100,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'git', 'svn', 'vcs'],
     updatedAt: '2023-05-18',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-java',
     name: 'java',
     downloads: 140000000,
@@ -111,7 +111,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'java', 'jdk', 'jre'],
     updatedAt: '2023-06-30',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-docker',
     name: 'docker',
     downloads: 125000000,
@@ -122,7 +122,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'docker', 'containers'],
     updatedAt: '2023-11-10',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-nginx',
     name: 'nginx',
     downloads: 110000000,
@@ -133,7 +133,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'nginx', 'web', 'proxy'],
     updatedAt: '2023-04-12',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-rabbitmq',
     name: 'rabbitmq',
     downloads: 95000000,
@@ -144,7 +144,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'rabbitmq', 'amqp', 'messaging'],
     updatedAt: '2023-10-01',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-tomcat',
     name: 'tomcat',
     downloads: 85000000,
@@ -155,7 +155,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'tomcat', 'java', 'web'],
     updatedAt: '2023-09-18',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-haproxy',
     name: 'haproxy',
     downloads: 75000000,
@@ -166,7 +166,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'haproxy', 'loadbalancer', 'proxy'],
     updatedAt: '2023-08-25',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-inifile',
     name: 'inifile',
     downloads: 250000000,
@@ -177,7 +177,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'ini', 'config'],
     updatedAt: '2023-05-05',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-registry',
     name: 'registry',
     downloads: 145000000,
@@ -188,7 +188,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'windows', 'registry'],
     updatedAt: '2023-03-22',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'puppetlabs-wsus_client',
     name: 'wsus_client',
     downloads: 80000000,
@@ -199,7 +199,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'windows', 'wsus', 'updates'],
     updatedAt: '2023-02-14',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'voxpupuli-archive',
     name: 'archive',
     downloads: 200000000,
@@ -210,7 +210,7 @@ final List<PuppetModule> mockModules = [
     tags: ['puppet', 'archive', 'tar', 'zip'],
     updatedAt: '2023-11-01',
   ),
-  const PuppetModule(
+  const ModuleModel(
     slug: 'voxpupuli-systemd',
     name: 'systemd',
     downloads: 110000000,
