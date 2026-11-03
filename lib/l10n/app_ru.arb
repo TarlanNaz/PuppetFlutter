@@ -1,16 +1,36 @@
 {
+  "@@locale": "ru",
   "appTitle": "Puppet Forge",
-  "modulesListTitle": "Модули",
-  "moduleDetailsTitle": "Детали модуля",
-  "downloads": "Скачиваний",
-  "version": "Версия",
-  "owner": "Владелец",
-  "license": "Лицензия",
-  "updatedAt": "Обновлено",
-  "tags": "Теги",
-  "themeToggle": "Сменить тему",
-  "languageToggle": "Сменить язык",
-  "noSummary": "Описание отсутствует.",
-  "searchModules": "Поиск модулей...",
-  "noResults": "Модули не найдены."
+  "searchHint": "Поиск по названию или автору",
+  "actionClearSearch": "Очистить поиск",
+  "actionToggleTheme": "Сменить тему",
+  "actionToggleLanguage": "Сменить язык",
+  "nothingFound": "Ничего не найдено",
+  "pageNotFound": "Страница не найдена",
+  "moduleNotFound": "Модуль {slug} не найден",
+  "@moduleNotFound": {
+    "placeholders": {
+      "slug": {"type": "String"}
+    }
+  },
+  "moduleOwner": "автор: {owner}",
+  "@moduleOwner": {
+    "placeholders": {
+      "owner": {"type": "String"}
+    }
+  },
+  "moduleDownloads": "{count, plural, one{{count} загрузка} few{{count} загрузки} other{{count} загрузок}}",
+  "@moduleDownloads": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "noSummary": "Описания нет",
+  "labelOwner": "Автор",
+  "labelVersion": "Версия",
+  "labelDownloads": "Загрузки",
+  "labelLicense": "Лицензия",
+  "labelUpdatedAt": "Обновлён",
+  "sectionTags": "Теги",
+  "sectionOtherModules": "Другие модули автора"
 }
