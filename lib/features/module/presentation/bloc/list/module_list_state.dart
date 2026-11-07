@@ -1,14 +1,17 @@
 import 'package:puppet/features/module/domain/module_model.dart';
 
-final class ModuleListState {
-  const ModuleListState({this.items = const [], this.query = ''});
+sealed class ModuleListState {
+  const ModuleListState({required this.query});
+
+  final String query;
+}
+
+final class ModuleListLoading extends ModuleListState {
+  const ModuleListLoading({super.query = ''});
+}
+
+final class ModuleListLoaded extends ModuleListState {
+  const ModuleListLoaded({required super.query, required this.items});
 
   final List<ModuleModel> items;
-  final String query;
-
-  ModuleListState copyWith({List<ModuleModel>? items, String? query}) =>
-      ModuleListState(
-        items: items ?? this.items,
-        query: query ?? this.query,
-      );
 }

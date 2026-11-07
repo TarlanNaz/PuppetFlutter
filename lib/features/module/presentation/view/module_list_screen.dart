@@ -23,19 +23,20 @@ class ModuleListScreen extends StatelessWidget {
           ),
           Expanded(
             child: BlocBuilder<ModuleListCubit, ModuleListState>(
-              builder: (context, state) {
-                if (state.items.isEmpty) {
-                  return Center(
+              builder: (context, state) => switch (state) {
+                ModuleListLoading() => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ModuleListLoaded(:final items) when items.isEmpty => Center(
                     child: Text(AppLocalizations.of(context).nothingFound),
-                  );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: state.items.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) =>
-                      ModuleCard(module: state.items[index]),
-                );
+                  ),
+                ModuleListLoaded(:final items) => ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: items.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 8),
+                    itemBuilder: (context, index) =>
+                        ModuleCard(module: items[index]),
+                  ),
               },
             ),
           ),
