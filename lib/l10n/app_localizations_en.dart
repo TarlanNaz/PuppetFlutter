@@ -13,41 +13,65 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Puppet Forge';
 
   @override
-  String get modulesListTitle => 'Modules';
+  String get searchHint => 'Search by name or author';
 
   @override
-  String get moduleDetailsTitle => 'Module Details';
+  String get actionClearSearch => 'Clear search';
 
   @override
-  String get downloads => 'Downloads';
+  String get actionToggleTheme => 'Toggle theme';
 
   @override
-  String get version => 'Version';
+  String get actionToggleLanguage => 'Change language';
 
   @override
-  String get owner => 'Owner';
+  String get nothingFound => 'Nothing found';
 
   @override
-  String get license => 'License';
+  String get pageNotFound => 'Page not found';
 
   @override
-  String get updatedAt => 'Updated at';
+  String moduleNotFound(String slug) {
+    return 'Module $slug not found';
+  }
 
   @override
-  String get tags => 'Tags';
+  String moduleOwner(String owner) {
+    return 'by $owner';
+  }
 
   @override
-  String get themeToggle => 'Toggle Theme';
+  String moduleDownloads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count downloads',
+      one: '$count download',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get languageToggle => 'Toggle Language';
+  String get noSummary => 'No description';
 
   @override
-  String get noSummary => 'No summary provided.';
+  String get labelOwner => 'Author';
 
   @override
-  String get searchModules => 'Search modules...';
+  String get labelVersion => 'Version';
 
   @override
-  String get noResults => 'No modules found.';
+  String get labelDownloads => 'Downloads';
+
+  @override
+  String get labelLicense => 'License';
+
+  @override
+  String get labelUpdatedAt => 'Updated';
+
+  @override
+  String get sectionTags => 'Tags';
+
+  @override
+  String get sectionOtherModules => 'Other modules by this author';
 }

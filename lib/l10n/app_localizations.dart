@@ -67,8 +67,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -100,87 +100,111 @@ abstract class AppLocalizations {
 
   /// No description provided for @appTitle.
   ///
-  /// In en, this message translates to:
+  /// In ru, this message translates to:
   /// **'Puppet Forge'**
   String get appTitle;
 
-  /// No description provided for @modulesListTitle.
+  /// No description provided for @searchHint.
   ///
-  /// In en, this message translates to:
-  /// **'Modules'**
-  String get modulesListTitle;
+  /// In ru, this message translates to:
+  /// **'Поиск по названию или автору'**
+  String get searchHint;
 
-  /// No description provided for @moduleDetailsTitle.
+  /// No description provided for @actionClearSearch.
   ///
-  /// In en, this message translates to:
-  /// **'Module Details'**
-  String get moduleDetailsTitle;
+  /// In ru, this message translates to:
+  /// **'Очистить поиск'**
+  String get actionClearSearch;
 
-  /// No description provided for @downloads.
+  /// No description provided for @actionToggleTheme.
   ///
-  /// In en, this message translates to:
-  /// **'Downloads'**
-  String get downloads;
+  /// In ru, this message translates to:
+  /// **'Сменить тему'**
+  String get actionToggleTheme;
 
-  /// No description provided for @version.
+  /// No description provided for @actionToggleLanguage.
   ///
-  /// In en, this message translates to:
-  /// **'Version'**
-  String get version;
+  /// In ru, this message translates to:
+  /// **'Сменить язык'**
+  String get actionToggleLanguage;
 
-  /// No description provided for @owner.
+  /// No description provided for @nothingFound.
   ///
-  /// In en, this message translates to:
-  /// **'Owner'**
-  String get owner;
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено'**
+  String get nothingFound;
 
-  /// No description provided for @license.
+  /// No description provided for @pageNotFound.
   ///
-  /// In en, this message translates to:
-  /// **'License'**
-  String get license;
+  /// In ru, this message translates to:
+  /// **'Страница не найдена'**
+  String get pageNotFound;
 
-  /// No description provided for @updatedAt.
+  /// No description provided for @moduleNotFound.
   ///
-  /// In en, this message translates to:
-  /// **'Updated at'**
-  String get updatedAt;
+  /// In ru, this message translates to:
+  /// **'Модуль {slug} не найден'**
+  String moduleNotFound(String slug);
 
-  /// No description provided for @tags.
+  /// No description provided for @moduleOwner.
   ///
-  /// In en, this message translates to:
-  /// **'Tags'**
-  String get tags;
+  /// In ru, this message translates to:
+  /// **'автор: {owner}'**
+  String moduleOwner(String owner);
 
-  /// No description provided for @themeToggle.
+  /// No description provided for @moduleDownloads.
   ///
-  /// In en, this message translates to:
-  /// **'Toggle Theme'**
-  String get themeToggle;
-
-  /// No description provided for @languageToggle.
-  ///
-  /// In en, this message translates to:
-  /// **'Toggle Language'**
-  String get languageToggle;
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} загрузка} few{{count} загрузки} other{{count} загрузок}}'**
+  String moduleDownloads(int count);
 
   /// No description provided for @noSummary.
   ///
-  /// In en, this message translates to:
-  /// **'No summary provided.'**
+  /// In ru, this message translates to:
+  /// **'Описания нет'**
   String get noSummary;
 
-  /// No description provided for @searchModules.
+  /// No description provided for @labelOwner.
   ///
-  /// In en, this message translates to:
-  /// **'Search modules...'**
-  String get searchModules;
+  /// In ru, this message translates to:
+  /// **'Автор'**
+  String get labelOwner;
 
-  /// No description provided for @noResults.
+  /// No description provided for @labelVersion.
   ///
-  /// In en, this message translates to:
-  /// **'No modules found.'**
-  String get noResults;
+  /// In ru, this message translates to:
+  /// **'Версия'**
+  String get labelVersion;
+
+  /// No description provided for @labelDownloads.
+  ///
+  /// In ru, this message translates to:
+  /// **'Загрузки'**
+  String get labelDownloads;
+
+  /// No description provided for @labelLicense.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лицензия'**
+  String get labelLicense;
+
+  /// No description provided for @labelUpdatedAt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновлён'**
+  String get labelUpdatedAt;
+
+  /// No description provided for @sectionTags.
+  ///
+  /// In ru, this message translates to:
+  /// **'Теги'**
+  String get sectionTags;
+
+  /// No description provided for @sectionOtherModules.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другие модули автора'**
+  String get sectionOtherModules;
 }
 
 class _AppLocalizationsDelegate
