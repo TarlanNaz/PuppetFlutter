@@ -21,7 +21,8 @@ ModuleDto _$ModuleDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       ),
       currentRelease: $checkedConvert(
         'current_release',
-        (v) => v == null ? null : ReleaseDto.fromJson(v as Map<String, dynamic>),
+        (v) =>
+            v == null ? null : ReleaseDto.fromJson(v as Map<String, dynamic>),
       ),
     );
     return val;
