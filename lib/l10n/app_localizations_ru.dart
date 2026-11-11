@@ -13,41 +13,66 @@ class AppLocalizationsRu extends AppLocalizations {
   String get appTitle => 'Puppet Forge';
 
   @override
-  String get modulesListTitle => 'Модули';
+  String get searchHint => 'Поиск по названию или автору';
 
   @override
-  String get moduleDetailsTitle => 'Детали модуля';
+  String get actionClearSearch => 'Очистить поиск';
 
   @override
-  String get downloads => 'Скачиваний';
+  String get actionToggleTheme => 'Сменить тему';
 
   @override
-  String get version => 'Версия';
+  String get actionToggleLanguage => 'Сменить язык';
 
   @override
-  String get owner => 'Владелец';
+  String get nothingFound => 'Ничего не найдено';
 
   @override
-  String get license => 'Лицензия';
+  String get pageNotFound => 'Страница не найдена';
 
   @override
-  String get updatedAt => 'Обновлено';
+  String moduleNotFound(String slug) {
+    return 'Модуль $slug не найден';
+  }
 
   @override
-  String get tags => 'Теги';
+  String moduleOwner(String owner) {
+    return 'автор: $owner';
+  }
 
   @override
-  String get themeToggle => 'Сменить тему';
+  String moduleDownloads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count загрузок',
+      few: '$count загрузки',
+      one: '$count загрузка',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get languageToggle => 'Сменить язык';
+  String get noSummary => 'Описания нет';
 
   @override
-  String get noSummary => 'Описание отсутствует.';
+  String get labelOwner => 'Автор';
 
   @override
-  String get searchModules => 'Поиск модулей...';
+  String get labelVersion => 'Версия';
 
   @override
-  String get noResults => 'Модули не найдены.';
+  String get labelDownloads => 'Загрузки';
+
+  @override
+  String get labelLicense => 'Лицензия';
+
+  @override
+  String get labelUpdatedAt => 'Обновлён';
+
+  @override
+  String get sectionTags => 'Теги';
+
+  @override
+  String get sectionOtherModules => 'Другие модули автора';
 }
