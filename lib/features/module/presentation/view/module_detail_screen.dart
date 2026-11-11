@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puppet/common/widgets/app_scaffold.dart';
+import 'package:puppet/common/widgets/load_error_view.dart';
 import 'package:puppet/features/module/domain/i_module_repository.dart';
 import 'package:puppet/features/module/domain/module_model.dart';
 import 'package:puppet/features/module/presentation/bloc/detail/module_detail_cubit.dart';
@@ -29,8 +30,16 @@ class ModuleDetailScreen extends StatelessWidget {
             ModuleDetailNotFound(:final slug) => Center(
                 child: Text(AppLocalizations.of(context).moduleNotFound(slug)),
               ),
-            ModuleDetailLoaded(:final module, :final related) =>
-              _DetailContent(module: module, related: related),
+            ModuleDetailFailure(:final slug, :final error) => Center(
+                child: LoadErrorView(
+                  error: error,
+                  onRetry: () => context.read<ModuleDetailCubit>().load(slug),
+                ),
+              ),
+            ModuleDetailLoaded(:final details) => _DetailContent(
+                module: details.module,
+                related: details.related,
+              ),
           },
         ),
       ),
