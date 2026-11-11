@@ -75,9 +75,22 @@ class _ModuleListState extends State<_ModuleList> {
     }
   }
 
+  // Если страница целиком поместилась в окно, прокрутки нет и _onScroll
+  // не сработает. Тогда после отрисовки сами просим следующую страницу.
+  // После ошибки не просим: иначе запросы пойдут по кругу, пока нет сети.
+  void _fillViewport() {
+    if (!mounted || !_controller.hasClients) return;
+    final state = widget.state;
+    if (state.loadMoreError != null) return;
+    if (_controller.position.maxScrollExtent <= 0) {
+      context.read<ModuleListCubit>().loadMore();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = widget.state;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _fillViewport());
     final showFooter = state.isLoadingMore || state.loadMoreError != null;
     return ListView.separated(
       controller: _controller,
