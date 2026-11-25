@@ -1,0 +1,10 @@
+# Настройки json_serializable для всех DTO.
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Приложение только читает ответы сервера, toJson не нужен.
+          create_to_json: false
+          # Ответ не той формы даёт CheckedFromJsonException с именем поля.
+          checked: true

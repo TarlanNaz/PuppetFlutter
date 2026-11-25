@@ -1,0 +1,2 @@
+# Сгенерированный код json_serializable лежит в git, GitHub сворачивает его в PR.
+*.g.dart linguist-generated=true

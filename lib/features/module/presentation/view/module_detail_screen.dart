@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puppet/common/widgets/app_scaffold.dart';
+import 'package:puppet/common/widgets/load_error_view.dart';
 import 'package:puppet/features/module/domain/i_module_repository.dart';
 import 'package:puppet/features/module/domain/module_model.dart';
 import 'package:puppet/features/module/presentation/bloc/detail/module_detail_cubit.dart';
@@ -24,13 +26,21 @@ class ModuleDetailScreen extends StatelessWidget {
         body: BlocBuilder<ModuleDetailCubit, ModuleDetailState>(
           builder: (context, state) => switch (state) {
             ModuleDetailLoading() => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: CircularProgressIndicator(),
+            ),
             ModuleDetailNotFound(:final slug) => Center(
-                child: Text(AppLocalizations.of(context).moduleNotFound(slug)),
+              child: Text(AppLocalizations.of(context).moduleNotFound(slug)),
+            ),
+            ModuleDetailFailure(:final slug, :final error) => Center(
+              child: LoadErrorView(
+                error: error,
+                onRetry: () => context.read<ModuleDetailCubit>().load(slug),
               ),
-            ModuleDetailLoaded(:final module, :final related) =>
-              _DetailContent(module: module, related: related),
+            ),
+            ModuleDetailLoaded(:final details) => _DetailContent(
+              module: details.module,
+              related: details.related,
+            ),
           },
         ),
       ),
@@ -66,7 +76,10 @@ class _DetailContent extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(module.name, style: theme.textTheme.headlineMedium),
+                        Text(
+                          module.name,
+                          style: theme.textTheme.headlineMedium,
+                        ),
                         Text(
                           module.slug,
                           style: theme.textTheme.bodyMedium?.copyWith(
@@ -86,20 +99,30 @@ class _DetailContent extends StatelessWidget {
               InfoRow(label: l10n.labelVersion, value: module.version),
               InfoRow(
                 label: l10n.labelDownloads,
-                value: module.downloads.toString(),
+                value: NumberFormat.decimalPattern(l10n.localeName)
+                    .format(module.downloads),
               ),
               InfoRow(label: l10n.labelLicense, value: module.license),
-              InfoRow(label: l10n.labelUpdatedAt, value: module.updatedAt),
-              Text(l10n.sectionTags, style: theme.textTheme.titleMedium),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final tag in module.tags) Chip(label: Text(tag)),
-                ],
+              InfoRow(
+                label: l10n.labelUpdatedAt,
+                value: DateFormat.yMMMd(l10n.localeName)
+                    .format(module.updatedAt),
               ),
+              if (module.tags.isNotEmpty) ...[
+                Text(l10n.sectionTags, style: theme.textTheme.titleMedium),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final tag in module.tags) Chip(label: Text(tag)),
+                  ],
+                ),
+              ],
               if (related.isNotEmpty) ...[
-                Text(l10n.sectionOtherModules, style: theme.textTheme.titleMedium),
+                Text(
+                  l10n.sectionOtherModules,
+                  style: theme.textTheme.titleMedium,
+                ),
                 for (final other in related) ModuleCard(module: other),
               ],
             ],

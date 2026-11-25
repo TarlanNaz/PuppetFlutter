@@ -19,5 +19,5 @@ final class ModuleModel {
   final String summary;
   final String license;
   final List<String> tags;
-  final String updatedAt;
+  final DateTime updatedAt;
 }
