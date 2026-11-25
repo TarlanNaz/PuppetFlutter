@@ -12,7 +12,6 @@ extension ModuleDtoMapper on ModuleDto {
     summary: currentRelease?.metadata.summary ?? '',
     license: currentRelease?.metadata.license ?? '',
     tags: currentRelease?.tags ?? const [],
-    // Из `2024-01-10 08:15:42 -0800` берём только дату.
-    updatedAt: updatedAt.length >= 10 ? updatedAt.substring(0, 10) : updatedAt,
+    updatedAt: DateTime.parse(updatedAt),
   );
 }

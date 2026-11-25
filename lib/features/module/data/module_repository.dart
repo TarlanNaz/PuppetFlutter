@@ -55,12 +55,18 @@ final class ModuleRepository implements IModuleRepository {
           owner: owner,
         ),
       ).wait;
-    } on ParallelWaitError<(ModuleDto?, ModulePageDto?), (AsyncError?, AsyncError?)>
-    catch (error) {
-      // .wait у пары бросает ParallelWaitError с ошибками обоих запросов.
-      // Наверх отдаём первую, это LoadException. Если модуля нет, это
-      // ошибка первого запроса, и экран покажет «не найден».
-      final first = (error.errors.$1 ?? error.errors.$2)!;
+    } on ParallelWaitError<
+      (ModuleDto?, ModulePageDto?),
+      (AsyncError?, AsyncError?)
+    > catch (error) {
+      // Модули автора необязательны: их ошибка не скрывает сам модуль.
+      final first = error.errors.$1;
+      if (first == null) {
+        return ModuleDetails(
+          module: error.values.$1!.toModel(),
+          related: const [],
+        );
+      }
       Error.throwWithStackTrace(first.error, first.stackTrace);
     }
 
